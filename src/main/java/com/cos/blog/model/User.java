@@ -32,7 +32,7 @@ public class User {
 	// 프로젝트에 연결된 DB의 넘버링 전략을 따라간다. 오라클이면 시퀀스, MySQL이면 auto_increment
 	private int id; //시퀀스, auto_increment
 	
-	@Column(nullable = false, length = 30)
+	@Column(nullable = false, length = 30, unique = true)
 	private String username; //아이디
 	
 	@Column(nullable = false, length = 100) // 해쉬(비밀번호 암호화)
