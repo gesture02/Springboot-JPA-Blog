@@ -12,7 +12,7 @@ import com.cos.blog.dto.ResponseDto;
 public class GlobalExceptionHandler {
 	
 	@ExceptionHandler(value = IllegalArgumentException.class) // 이 exception이 발생하면 스프링이 이 함수로 그 메시지를 전달해준다.
-	public ResponseDto<String> handleArgumentException(IllegalArgumentException e) {
+	public ResponseDto<String> handleArgumentException(Exception e) {
 		return new ResponseDto<String>(HttpStatus.INTERNAL_SERVER_ERROR.value(),  e.getMessage());
 	}
 	//모든 exception을 받고싶으면 Exception으로 하면된다.
