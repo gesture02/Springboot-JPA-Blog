@@ -3,9 +3,7 @@ let index = {
 		$("#btn-save").on("click", ()=>{	//function(){}안쓰는 이유 : this를 바인딩 하기위해서
 			this.save();
 		});
-		$("#btn-login").on("click", ()=>{
-			this.login();
-		});
+		
 	},
 	
 	save: function(){
@@ -23,39 +21,18 @@ let index = {
 		$.ajax({
 			//object
 			type : "POST",
-			url: "/blog/api/user",
+			url: "/auth/joinProc",
 			data: JSON.stringify(data),
 			contentType: "application/json; charset=utf-8", // body데이터가 어떤 타입인지(MIME)
 			dataType: "json" //요청을 서버로 하고, 응답이 왔을 때 기본적으로 string인데 생긴게 json이라면 => javascript object로 변경해줌
 		}).done(function(res){
 			//req가 성공이면
 			alert("회원가입이 완료되었습니다");
-			location.href = "/blog";
+			location.href = "/";
 		}).fail(function(error){
 			alert(JSON.stringify(error));
 			//req가 실패이면
 		});	//ajax 통신을 이용해서 3개의 데이터를 json으로 변경하여 insert 요청하기
-		
-	},
-	
-	login: function(){
-		let data = {
-			username: $("#username").val(),
-			password: $("#password").val()
-		}
-		
-		$.ajax({
-			type : "POST",
-			url: "/blog/api/user/login",
-			data: JSON.stringify(data),
-			contentType: "application/json; charset=utf-8",
-			dataType: "json"
-		}).done(function(res){
-			alert("로그인이 완료되었습니다");
-			location.href = "/blog";
-		}).fail(function(error){
-			alert(JSON.stringify(error));
-		});
 		
 	}
 }
