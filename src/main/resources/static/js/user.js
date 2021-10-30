@@ -3,7 +3,9 @@ let index = {
 		$("#btn-save").on("click", ()=>{	//function(){}안쓰는 이유 : this를 바인딩 하기위해서
 			this.save();
 		});
-		
+		$("#btn-update").on("click", ()=>{
+			this.update();
+		});
 	},
 	
 	save: function(){
@@ -34,6 +36,27 @@ let index = {
 			//req가 실패이면
 		});	//ajax 통신을 이용해서 3개의 데이터를 json으로 변경하여 insert 요청하기
 		
-	}
+	},
+	
+	update: function(){
+		let data = {
+			id: $("#id").val(),
+			password: $("#password").val(),
+			email: $("#email").val()
+		}
+		
+		$.ajax({
+			type : "PUT",
+			url: "/user",
+			data: JSON.stringify(data),
+			contentType: "application/json; charset=utf-8",
+			dataType: "json"
+		}).done(function(res){
+			alert("수정이 완료되었습니다");
+			location.href = "/";
+		}).fail(function(error){
+			alert(JSON.stringify(error));
+		});
+	},
 }
 index.init();

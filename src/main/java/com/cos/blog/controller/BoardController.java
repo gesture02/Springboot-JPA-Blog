@@ -23,6 +23,7 @@ public class BoardController {
 	public String index(Model model, @PageableDefault(size=3, sort="id", direction=Sort.Direction.DESC) Pageable pageable) {	//컨트롤러에서 세션에 접근하는법 @AuthenticationPrincipal PrincipalDetail principal (매개변수에)
 		//System.out.println("login username : " + principal.getUsername());
 		
+		//model은 해당 데이터를 가지고 view까지 이동함
 		model.addAttribute("boards", boardService.글목록(pageable)); // index라는 페이지로 boards가 넘어감
 		return "index"; // viewResolver 작동 -> 해당 index 페이지로 model의 정보를 들고 이동
 	}
@@ -37,5 +38,11 @@ public class BoardController {
 	@GetMapping("/board/saveForm")
 	public String saveForm() {
 		return "board/saveForm";
+	}
+	
+	@GetMapping("/board/{id}/updateForm")
+	public String updateForm(Model model, @PathVariable int id) {
+		model.addAttribute("board", boardService.글상세보기(id));
+		return "board/updateForm";
 	}
 }
