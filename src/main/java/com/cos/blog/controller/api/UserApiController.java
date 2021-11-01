@@ -53,10 +53,9 @@ public class UserApiController {
 		// 강제로 세션값 바꾸기
 		
 		
-		// 세션 등록 -> db변경이 되고 나서 해야함 그래서 service에서 하는게 아니고 여기서 함
-//		String encPassword = encoder.encode(user.getPassword());
-//		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), encPassword));
-//		SecurityContextHolder.getContext().setAuthentication(authentication);
+		 // 세션 등록 -> db변경이 되고 나서 해야함 그래서 service에서 하는게 아니고 여기서 함
+		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
+		SecurityContextHolder.getContext().setAuthentication(authentication);
 				
 		return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
 		
