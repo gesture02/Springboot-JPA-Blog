@@ -23,6 +23,11 @@ public class UserService {
 	@Autowired
 	private BCryptPasswordEncoder encoder;
 	
+	@Transactional(readOnly = true)
+	public User 회원찾기(String username) {
+		User user = userRepository.findByUsername(username).get();
+		return user;
+	}
 	
 	
 	@Transactional
