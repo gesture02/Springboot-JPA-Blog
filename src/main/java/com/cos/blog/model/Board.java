@@ -14,9 +14,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -50,7 +53,9 @@ public class Board {
 	// fetchtype은 기본 lazy이지만 글을 볼때 user, board, reply가 모두 필요하기 때문에 eager로 바꿔야한다.
 	// One : Board, Many : reply
 	//외부키 필요없음
-	private List<Reply> reply;
+	@JsonIgnoreProperties({"board"}) // reply안에서 board getter 호출을 막는다 (무한참조 방지)
+	@OrderBy("id desc")
+	private List<Reply> replys;
 	
 	@CreationTimestamp
 	private Timestamp createDate;

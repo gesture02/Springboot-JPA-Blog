@@ -8,14 +8,24 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.cos.blog.dto.ReplySaveRequestDto;
 import com.cos.blog.model.Board;
+import com.cos.blog.model.Reply;
 import com.cos.blog.model.User;
 import com.cos.blog.repository.BoardRepository;
+import com.cos.blog.repository.ReplyRepository;
+import com.cos.blog.repository.UserRepository;
 
 @Service
 public class BoardService {
 	@Autowired
+	private UserRepository userRepository;
+	
+	@Autowired
 	private BoardRepository boardRepository;
+	
+	@Autowired
+	private ReplyRepository replyRepository;
 	
 	@Transactional
 	public void 글쓰기(Board board, User user) {
@@ -54,6 +64,28 @@ public class BoardService {
 		
 		// 해당 함수가 종료(service 종료)되면 transaction이 종료된다.
 		// 이때 더티체킹이 일어난다 -> 변경된 것 감지 -> 자동업데이트 후 db로 flush
+	}
+	
+	@Transactional
+	public void 댓글쓰기(ReplySaveRequestDto replySaveRequestDto) {
 		
+		User user = userRepository.findById(replySaveRequestDto.getUserId())
+				.orElseThrow(()->{
+					return new IllegalArgumentException("댓글 쓰기 실패 : 유저 아이디를 찾을 수 없습니다");
+				});	//영속화
+		Board board = boardRepository.findById(replySaveRequestDto.getBoardId())
+				.orElseThrow(()->{
+					return new IllegalArgumentException("댓글 쓰기 실패 : 게시글 아이디를 찾을 수 없습니다");
+				});	//영속화
+		Reply reply = Reply.builder()
+				.user(user)
+				.board(board)
+				.content(replySaveRequestDto.getContent())
+				.build();
+		
+//		//아래 방법으로 하는게 가장 이상적
+//		Reply reply = new Reply();
+//		reply.update(user, board, replySaveRequestDto.getContent());
+		replyRepository.save(reply);	
 	}
 }

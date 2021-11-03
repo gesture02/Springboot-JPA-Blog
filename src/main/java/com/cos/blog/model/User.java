@@ -46,6 +46,8 @@ public class User {
 	private RoleType role; //Enum을 쓰는게 좋다. //admin, user, manager라는 권한을 주기 위함
 	//Enum을 쓰면 3개중에 하나로 들어갈 수 있도록 도메인을 정할 수 있다.
 	
+	private String oauth; //kakao, google
+	
 	@CreationTimestamp // 시간이 자동으로 입력된다.
 	private Timestamp createDate;
 }
