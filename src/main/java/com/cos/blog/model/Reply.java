@@ -8,12 +8,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.CreationTimestamp;
-
-import com.cos.blog.dto.ReplySaveRequestDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -43,7 +40,7 @@ public class Reply {
 	
 	@CreationTimestamp
 	private Timestamp createDate;
-	
+
 ////dto를 사용해서 하는방법
 //	public void update(User user, Board board, String content) {
 //		setUser(user);

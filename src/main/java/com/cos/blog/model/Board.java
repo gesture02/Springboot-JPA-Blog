@@ -3,6 +3,7 @@ package com.cos.blog.model;
 import java.sql.Timestamp;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -48,7 +49,7 @@ public class Board {
 	@JoinColumn(name = "userId")
 	private User user; // DB는 오브젝트를 저장x jpa는 가능 ->  jpa가 매핑해줌
 	
-	@OneToMany(mappedBy = "board", fetch = FetchType.EAGER)// mappedBy : 연관관계의 주인이 아님(fk아님) DB에 컬럼 만들지 마라
+	@OneToMany(mappedBy = "board", fetch = FetchType.EAGER, cascade=CascadeType.REMOVE)// mappedBy : 연관관계의 주인이 아님(fk아님) DB에 컬럼 만들지 마라
 	//board를 select 할때 join문을 통해 값을 얻기위해 필요한 것 (board는 reply클래스에있는 필드 이름이다.)
 	// fetchtype은 기본 lazy이지만 글을 볼때 user, board, reply가 모두 필요하기 때문에 eager로 바꿔야한다.
 	// One : Board, Many : reply

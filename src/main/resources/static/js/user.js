@@ -29,7 +29,11 @@ let index = {
 			dataType: "json" //요청을 서버로 하고, 응답이 왔을 때 기본적으로 string인데 생긴게 json이라면 => javascript object로 변경해줌
 		}).done(function(res){
 			//req가 성공이면
-			alert("회원가입이 완료되었습니다");
+			if(res.status === 500){
+				alert("회원가입에 실패했습니다.");
+			}else{
+				alert("회원가입이 완료되었습니다");
+			}
 			location.href = "/";
 		}).fail(function(error){
 			alert(JSON.stringify(error));

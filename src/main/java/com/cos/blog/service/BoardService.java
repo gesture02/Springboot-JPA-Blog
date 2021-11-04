@@ -16,8 +16,22 @@ import com.cos.blog.repository.BoardRepository;
 import com.cos.blog.repository.ReplyRepository;
 import com.cos.blog.repository.UserRepository;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+//@RequiredArgsConstructor //초기화 되지않은애들을 생성자 호출할 때 초기화해줘
 public class BoardService {
+	
+////@RequiredArgsConstructor 필요
+//	private final BoardRepository boardRepository;
+//	private final ReplyRepository replyRepository;
+	
+//	private BoardRepository boardRepository;
+//	private ReplyRepository replyRepository;
+//	public BoardService(BoardRepository bRepo, ReplyRepository rRepo) {
+//		this.boardRepository = bRepo;
+//		this.replyRepository = rRepo;
+//	}
 	@Autowired
 	private UserRepository userRepository;
 	
@@ -69,23 +83,30 @@ public class BoardService {
 	@Transactional
 	public void 댓글쓰기(ReplySaveRequestDto replySaveRequestDto) {
 		
-		User user = userRepository.findById(replySaveRequestDto.getUserId())
-				.orElseThrow(()->{
-					return new IllegalArgumentException("댓글 쓰기 실패 : 유저 아이디를 찾을 수 없습니다");
-				});	//영속화
-		Board board = boardRepository.findById(replySaveRequestDto.getBoardId())
-				.orElseThrow(()->{
-					return new IllegalArgumentException("댓글 쓰기 실패 : 게시글 아이디를 찾을 수 없습니다");
-				});	//영속화
-		Reply reply = Reply.builder()
-				.user(user)
-				.board(board)
-				.content(replySaveRequestDto.getContent())
-				.build();
+//		//Dto만들어서 하기
+//		User user = userRepository.findById(replySaveRequestDto.getUserId())
+//				.orElseThrow(()->{
+//					return new IllegalArgumentException("댓글 쓰기 실패 : 유저 아이디를 찾을 수 없습니다");
+//				});	//영속화
+//		Board board = boardRepository.findById(replySaveRequestDto.getBoardId())
+//				.orElseThrow(()->{
+//					return new IllegalArgumentException("댓글 쓰기 실패 : 게시글 아이디를 찾을 수 없습니다");
+//				});	//영속화
+//		Reply reply = Reply.builder()
+//				.user(user)
+//				.board(board)
+//				.content(replySaveRequestDto.getContent())
+//				.build();
 		
 //		//아래 방법으로 하는게 가장 이상적
 //		Reply reply = new Reply();
 //		reply.update(user, board, replySaveRequestDto.getContent());
-		replyRepository.save(reply);	
+//		replyRepository.save(reply);	
+		replyRepository.mSave(replySaveRequestDto.getUserId(), replySaveRequestDto.getBoardId(), replySaveRequestDto.getContent());
+	}
+	
+	@Transactional
+	public void 댓글삭제(int replyId) {
+		replyRepository.deleteById(replyId);
 	}
 }
